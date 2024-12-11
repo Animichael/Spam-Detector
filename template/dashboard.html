@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
+    <link rel="stylesheet" href="/static/css/dasboard.css"> 
+    <link rel="shortcut icon" type="image/x-icon" href="/static/img/jum.jpg">
+    <style>
+        :root {
+            --primary-color: #ff8c00; /* Dark Orange */
+            --text-color: #ffffff;
+            --hover-color: #ff7f50;
+        }
+
+        body {
+            transition: background-color 0.3s ease;
+        }
+
+        /* Responsive Top Navigation */
+        .top-nav {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-icons a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-icons a:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        /* Settings Dropdown */
+        .color-dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            padding: 15px;
+            top: 100%;
+            right: 0;
+            z-index: 1040;
+            width: 200px;
+        }
+
+        .color-option {
+            width: 35px;
+            height: 35px;
+            margin: 7px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+            box-shadow: 0 3px 7px rgba(0,0,0,0.2);
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        /* Color Palette */
+        .color-option.darkorange { background-color: #ff8c00; }
+        .color-option.coral { background-color: #FFFAFA; }
+        .color-option.tomato { background-color: #FFFFF0; }
+        .color-option.orangered { background-color: #F5F5F5; }
+
+        /* Gradient White Options */
+        .color-option.cream-white { 
+            background: linear-gradient(135deg, #fff5e6 0%, #fff0d9 100%);
+            border: 1px solid #ffdab9;
+        }
+        .color-option.soft-white { 
+            background: linear-gradient(135deg, #f5f5f5 0%, #fffaf0 100%);
+            border: 1px solid #ffebcd;
+        }
+        .color-option.warm-white { 
+            background: linear-gradient(135deg, #fffaf0 0%, #fdf5e6 100%);
+            border: 1px solid #ffdab9;
+        }
+        .color-option.pearl-white { 
+            background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
+            border: 1px solid #e6e6fa;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-icons {
+                justify-content: flex-end;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 250px;
+                background-color: white;
+                z-index: 1050;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                display: block;
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                z-index: 1060;
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+ 
+<body>
+<!-- Responsive Top Navigation -->
+<nav class="top-nav">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <div class="sidebar-toggle d-md-none">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="nav-icons justify-content-end d-flex">
+                    <a href="#" id="settingsDropdown" class="position-relative">
+                        <i class="fas fa-cog"></i>
+                        <div class="color-dropdown" id="colorDropdown">
+                            <div class="d-flex flex-wrap justify-content-center">
+                                <div class="color-option darkorange" data-color="#ff8c00" title="Dark Orange"></div>
+                                <div class="color-option coral" data-color="#FFFAFA" title="Snow White"></div>
+                                <div class="color-option tomato" data-color="#FFFFF0" title="Ivory White"></div>
+                                <div class="color-option orangered" data-color="#F5F5F5" title="whitesmoke"></div>
+                                <div class="color-option cream-white" data-color="#fff5e6" title="Cream White"></div>
+                                <div class="color-option soft-white" data-color="#f5f5f5" title="Soft White"></div>
+                                <div class="color-option warm-white" data-color="#fffaf0" title="Warm White"></div>
+                                <div class="color-option pearl-white" data-color="#f0f0f0" title="Pearl White"></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="{{ url_for('logout') }}" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <!-- Sidebar Wrapper -->
+    <div class="sidebar-wrapper">
+        <!-- Sidebar Toggle -->
+        <div class="sidebar-toggle">
+            <i class="fas fa-bars text-white"></i>
+        </div>
+
+        <!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo">
+        <img src="/static/img/jumiaa.png" alt="" width="100">
+    </div>
+    <div class="list-group list-group-flush">
+        <a href="{{ url_for('dashboard') }}" class="list-group-item list-group-item-action">
+            <i class="fas fa-home me-2"></i> Dashboard
+        </a>
+        <a href="{{ url_for('prediction') }}" class="list-group-item list-group-item-action">
+            <i class="fas fa-filter me-2"></i> Filter Spam
+        </a>
+        <a href="#" class="list-group-item list-group-item-action spam-list-modal" data-bs-toggle="modal" data-bs-target="#spamModal">
+            <i class="fas fa-envelope-open-text me-2"></i> Spam List
+        </a>
+        <a href="#" class="list-group-item list-group-item-action non-spam-list-modal" data-bs-toggle="modal" data-bs-target="#nonSpamModal">
+            <i class="fas fa-envelope me-2"></i> Non-Spam List
+        </a>
+        <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout
+        </a>
+    </div>
+</div>
+
+<!-- Spam Emails Modal -->
+<div class="modal fade" id="spamModal" tabindex="-1" aria-labelledby="spamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="spamModalLabel" style="font-size: 12px;">List of Fitered Spam Emails</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-sm btn-dark mb-3" id="downloadSpamCSV" style="font-size: 12px;">Download CSV</button>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 12px;">S/N</th>
+                            <th style="font-size: 12px;">Email</th>
+                            <th style="font-size: 12px;">Time Detected</th>
+                            <th style="font-size: 12px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="spamTableBody" style="font-size: 12px;">
+                        <!-- Dynamic spam email rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Non-Spam Emails Modal -->
+<div class="modal fade" id="nonSpamModal" tabindex="-1" aria-labelledby="nonSpamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nonSpamModalLabel" style="font-size: 12px;">List of Non-Spam Mails</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-sm btn-dark mb-3" id="downloadNonSpamCSV" style="font-size: 12px;">Download CSV</button>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 12px;">S/N</th>
+                            <th style="font-size: 12px;">Email</th>
+                            <th style="font-size: 12px;">Time Detected</th>
+                            <th style="font-size: 12px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nonSpamTableBody" style="font-size: 12px;">
+                        <!-- Dynamic non-spam email rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Main Content -->
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mb-4">Spam Detection Dashboard</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card dashboard-card shadow-lg border-0">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 me-3">
+                                <i class="fas fa-envelope-open-text fa-3x text-danger"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="card-title text-muted">Total Spam Emails</h5>
+                                <h4 class="card-text text-danger">{{ spam_count }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card dashboard-card shadow-lg border-0">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 me-3">
+                                <i class="fas fa-envelope fa-3x text-success"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="card-title text-muted">Total Non-Spam Emails</h5>
+                                <h4 class="card-text text-success">{{ non_spam_count }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Settings Dropdown Toggle
+            const settingsDropdown = document.getElementById('settingsDropdown');
+            const colorDropdown = document.getElementById('colorDropdown');
+
+            settingsDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+                colorDropdown.style.display = colorDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                colorDropdown.style.display = 'none';
+            });
+
+            // Color Selection
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const selectedColor = this.getAttribute('data-color');
+                    
+                    // Update CSS variables
+                    document.documentElement.style.setProperty('--primary-color', selectedColor);
+                    
+                    // Optional: You can add more specific color updates here
+                    document.body.style.backgroundColor = selectedColor;
+                    
+                    // Close dropdown
+                    colorDropdown.style.display = 'none';
+                });
+            });
+
+            // Mobile Sidebar Toggle
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            const sidebar = document.querySelector('.sidebar');
+
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
+        });
+
+       // Initialize Pie Chart
+let emailPieChart;
+
+function initializePieChart() {
+    const ctx = document.getElementById('emailPieChart').getContext('2d');
+    emailPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Spam', 'Non-Spam'],
+            datasets: [{
+                data: [0, 0], // Initial dummy data
+                backgroundColor: ['#ff4d4d', '#4caf50'], // Colors for pie sections
+                hoverBackgroundColor: ['#ff1a1a', '#2eb82e'], // Hover effect colors
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                },
+            }
+        }
+    });
+}
+
+// Update Pie Chart with Latest Data
+function updatePieChart() {
+    fetch('/mail_counts') // Endpoint that provides spam and non-spam counts
+        .then(response => response.json())
+        .then(data => {
+            emailPieChart.data.datasets[0].data = [data.spam, data.non_spam]; // Update data
+            emailPieChart.update(); // Refresh chart
+        })
+        .catch(error => {
+            console.error('Error updating pie chart:', error);
+        });
+}
+
+// Initialize chart and periodically update
+document.addEventListener('DOMContentLoaded', function() {
+    initializePieChart();
+    updatePieChart();
+
+    // Refresh chart every 10 seconds
+    setInterval(updatePieChart, 10000);
+});
+
+
+    </script>
+    <!-- Bootstrap JS and dependencies -->
+     <script src="/static/js/dasboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
