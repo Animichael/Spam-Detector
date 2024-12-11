@@ -1,35 +1,35 @@
 ﻿bcrypt==4.2.0
-blinker @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/blinker_1699474692786/work
-click @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/click_1699473800648/work
-colorama @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/colorama_1699472650914/work
+blinker==1.5
+click==8.0.3
+colorama==0.4.4
 dnspython==2.7.0
-email_validator==2.2.0
-Flask @ file:///C:/b/abs_f9w7doyu0h/croot/flask_1716545924884/work
+email-validator==2.2.0
+Flask==2.2.0
 Flask-Bcrypt==1.0.1
 Flask-Login==0.6.3
 Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.2.2
-greenlet==3.1.1
-idna==3.10
-itsdangerous @ file:///C:/b/abs_c4vwgdr5yn/croot/itsdangerous_1716533399914/work
-Jinja2 @ file:///C:/b/abs_ddyeze2h6_/croot/jinja2_1730903330414/work
-joblib==1.4.2
-MarkupSafe @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/markupsafe_1707425732791/work
-numpy==2.1.3
-pandas==2.2.3
-python-dateutil==2.9.0.post0
-pytz==2024.2
-regex==2024.11.6
-scikit-learn==1.5.2
-scipy==1.14.1
-setuptools==75.1.0
-six==1.16.0
-SQLAlchemy==2.0.36
-threadpoolctl==3.5.0
-tqdm==4.67.0
-typing_extensions==4.12.2
-tzdata==2024.2
-Werkzeug @ file:///C:/b/abs_b21bhstb1q/croot/werkzeug_1731005800632/work
-wheel==0.44.0
-WTForms==3.2.1
+greenlet==1.1.2
 gunicorn==20.1.0
+idna==3.10
+itsdangerous==2.0.1
+Jinja2==3.1.0
+joblib==1.4.2
+MarkupSafe==2.1.1
+numpy==1.21.2
+pandas==1.3.3
+python-dateutil==2.8.2
+pytz==2021.1
+regex==2021.8.3
+scikit-learn==0.24.2
+scipy==1.7.0
+setuptools==56.0.0
+six==1.16.0
+SQLAlchemy==1.4.23
+threadpoolctl==2.2.0
+tqdm==4.61.2
+typing_extensions==3.10.0.0
+tzdata==2021.1
+Werkzeug==2.0.2
+wheel==0.36.2
+WTForms==3.0.1
