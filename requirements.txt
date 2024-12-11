@@ -32,4 +32,4 @@ tzdata==2024.2
 Werkzeug @ file:///C:/b/abs_b21bhstb1q/croot/werkzeug_1731005800632/work
 wheel==0.44.0
 WTForms==3.2.1
-gunicon
+gunicorn==20.1.0
